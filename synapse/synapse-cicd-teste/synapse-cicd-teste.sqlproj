@@ -67,6 +67,7 @@
   <ItemGroup>
     <Build Include="Table1.sql" />
     <Build Include="pessoas.sql" />
+    <Build Include="nova_tabela.sql" />
   </ItemGroup>
   <ItemGroup>
     <ArtifactReference Condition="'$(NetCoreBuild)' != 'true'" Include="$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\150\SqlSchemas\master.dacpac">
