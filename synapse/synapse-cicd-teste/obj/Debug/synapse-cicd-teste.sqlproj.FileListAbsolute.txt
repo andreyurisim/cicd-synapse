@@ -1,0 +1,10 @@
+c:\Users\BlueShift\Desktop\synapse-cicd-teste\bin\Debug\synapse-cicd-teste.dacpac
+c:\Users\BlueShift\Desktop\synapse-cicd-teste\bin\Debug\synapse-cicd-teste.dll
+c:\Users\BlueShift\Desktop\synapse-cicd-teste\bin\Debug\synapse-cicd-teste.pdb
+c:\Users\BlueShift\Desktop\synapse-cicd-teste\obj\Debug\synapse-cicd-teste.sqlprojAssemblyReference.cache
+c:\Users\BlueShift\Desktop\synapse-cicd-teste\obj\Debug\Model.xml
+c:\Users\BlueShift\Desktop\synapse-cicd-teste\obj\Debug\refactor.xml
+c:\Users\BlueShift\Desktop\synapse-cicd-teste\obj\Debug\postdeploy.sql
+c:\Users\BlueShift\Desktop\synapse-cicd-teste\obj\Debug\predeploy.sql
+c:\Users\BlueShift\Desktop\synapse-cicd-teste\obj\Debug\synapse-cicd-teste.dll
+c:\Users\BlueShift\Desktop\synapse-cicd-teste\obj\Debug\synapse-cicd-teste.pdb
