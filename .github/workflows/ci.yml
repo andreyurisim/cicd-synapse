@@ -17,12 +17,11 @@ jobs:
       - name: install sqlpackage
         run: |
           curl -Lo sqlpackage-linux.zip https://aka.ms/sqlpackage-linux
-          apt update && apt install -y zip
           unzip -o sqlpackage-linux.zip -d /opt/sqlpackage/
           chmod +x /opt/sqlpackage/*
-          rm -f /bin/sqlpackage
-          ln -s /opt/sqlpackage/sqlpackage /bin/sqlpackage
-          rm -rf sqlpackage-linux.zip
+          sudo rm -f /bin/sqlpackage
+          sudo ln -s /opt/sqlpackage/sqlpackage /bin/sqlpackage
+          sudo rm -rf sqlpackage-linux.zip
 
       - name: Test sqlpackage
         run: sqlpackage
