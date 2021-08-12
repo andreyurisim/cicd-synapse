@@ -14,7 +14,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: install sqlpackage
+      - name: Install sqlpackage
         run: |
           curl -Lo sqlpackage-linux.zip https://aka.ms/sqlpackage-linux
           unzip -o sqlpackage-linux.zip -d /opt/sqlpackage/
@@ -23,5 +23,25 @@ jobs:
           sudo ln -s /opt/sqlpackage/sqlpackage /bin/sqlpackage
           sudo rm -rf sqlpackage-linux.zip
 
-      - name: Test sqlpackage
-        run: sqlpackage
+      - name: Install dotnet
+        run: |
+          wget https://packages.microsoft.com/config/ubuntu/21.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+          sudo dpkg -i packages-microsoft-prod.deb && \
+          rm packages-microsoft-prod.deb
+
+          sudo apt-get update && \
+            sudo apt-get install -y apt-transport-https && \
+            sudo apt-get update && \
+            sudo apt-get install -y dotnet-sdk-3.1
+
+      - name: Install Azure Data Studio
+        run: |
+          curl -Lo azuredatastudio-linux.deb https://go.microsoft.com/fwlink/?linkid=2168339
+          sudo dpkg -i azuredatastudio-linux.deb
+          sudo rm -rf azuredatastudio-linux.deb
+          sudo apt-get install libunwind8
+
+          export NET_CORE_TARGETS_PATH=/usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/$(ls /usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/ | head -n1)
+
+      - name: Build Dacpac
+        run: dotnet build "cicd-synapse/synapse/synapse-cicd-teste/synapse-cicd-teste.sqlproj" /p:NetCoreBuild=true /p:NETCoreTargetsPath="${NET_CORE_TARGETS_PATH}"
