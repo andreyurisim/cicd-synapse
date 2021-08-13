@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "1eVODt+A1jSa3pj2EJhrjQ7OMBGMtZbEgH6OQOfbeaFGBdg6frmVvkCYFVtuDl5A09/9SyV+PqNPg/9XPatT4w==",
+  "success": true,
+  "projectFilePath": "c:\\Users\\BlueShift\\Desktop\\cicd-synapse\\synapse\\synapse-via\\synapse-via.sqlproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\BlueShift\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.0\\microsoft.netframework.referenceassemblies.1.0.0.nupkg.sha512",
+    "C:\\Users\\BlueShift\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net46\\1.0.0\\microsoft.netframework.referenceassemblies.net46.1.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
