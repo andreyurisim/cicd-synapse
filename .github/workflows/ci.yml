@@ -1,7 +1,6 @@
-name: CI
+name: CI-Synapse
 
 on:
-  push:
   pull_request:
     branches: [ main ]
 
@@ -10,17 +9,41 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      AZURE_DATA_STUDIO_PROJECT_PATH: synapse/synapse-cicd-teste/synapse-cicd-teste.sqlproj
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Install sqlpackage
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          curl -Lo sqlpackage-linux.zip https://aka.ms/sqlpackage-linux
+          unzip -o sqlpackage-linux.zip -d /opt/sqlpackage/
+          chmod +x /opt/sqlpackage/*
+          sudo rm -f /bin/sqlpackage
+          sudo ln -s /opt/sqlpackage/sqlpackage /bin/sqlpackage
+          sudo rm -rf sqlpackage-linux.zip
+
+      - name: Install dotnet
+        run: |
+          wget https://packages.microsoft.com/config/ubuntu/21.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+          sudo dpkg -i packages-microsoft-prod.deb && \
+          rm packages-microsoft-prod.deb
+
+          sudo apt-get update && \
+            sudo apt-get install -y apt-transport-https && \
+            sudo apt-get update && \
+            sudo apt-get install -y dotnet-sdk-3.1
+
+      - name: Install Azure Data Studio
+        run: |
+          curl -Lo azuredatastudio-linux.deb https://go.microsoft.com/fwlink/?linkid=2168339
+          sudo dpkg -i azuredatastudio-linux.deb
+          sudo rm -rf azuredatastudio-linux.deb
+          sudo apt-get install libunwind8
+          
+          echo "NET_CORE_TARGETS_PATH=/usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/$(ls /usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/ | head -n1)" >> $GITHUB_ENV
+
+      - name: Build Dacpac
+        run: dotnet build "${AZURE_DATA_STUDIO_PROJECT_PATH}" /p:NetCoreBuild=true /p:NETCoreTargetsPath="${NET_CORE_TARGETS_PATH}"
