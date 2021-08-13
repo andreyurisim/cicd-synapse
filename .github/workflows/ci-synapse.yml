@@ -1,8 +1,12 @@
-name: CI-Synapse
+name: ci-synapse
 
 on:
-  pull_request:
-    branches: [ main ]
+  push:
+    branches:
+      - main
+      - dev
+    paths:
+      - 'synapse/**'
 
   workflow_dispatch:
 
@@ -10,10 +14,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      AZURE_DATA_STUDIO_PROJECT_PATH: synapse/synapse-cicd-teste/synapse-cicd-teste.sqlproj
+      AZURE_DATA_STUDIO_PROJECT_PATH: synapse/synapse-via/synapse-via.sqlproj
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
       - name: Install sqlpackage
@@ -45,5 +48,5 @@ jobs:
           
           echo "NET_CORE_TARGETS_PATH=/usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/$(ls /usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/ | head -n1)" >> $GITHUB_ENV
 
-      - name: Build Dacpac
+      - name: Build dacpac
         run: dotnet build "${AZURE_DATA_STUDIO_PROJECT_PATH}" /p:NetCoreBuild=true /p:NETCoreTargetsPath="${NET_CORE_TARGETS_PATH}"
