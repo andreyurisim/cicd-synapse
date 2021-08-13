@@ -1,0 +1,10 @@
+c:\Users\BlueShift\Desktop\cicd-synapse\synapse\synapse-via\bin\Debug\synapse-via.dacpac
+c:\Users\BlueShift\Desktop\cicd-synapse\synapse\synapse-via\bin\Debug\synapse-via.dll
+c:\Users\BlueShift\Desktop\cicd-synapse\synapse\synapse-via\bin\Debug\synapse-via.pdb
+c:\Users\BlueShift\Desktop\cicd-synapse\synapse\synapse-via\obj\Debug\synapse-via.sqlprojAssemblyReference.cache
+c:\Users\BlueShift\Desktop\cicd-synapse\synapse\synapse-via\obj\Debug\Model.xml
+c:\Users\BlueShift\Desktop\cicd-synapse\synapse\synapse-via\obj\Debug\refactor.xml
+c:\Users\BlueShift\Desktop\cicd-synapse\synapse\synapse-via\obj\Debug\postdeploy.sql
+c:\Users\BlueShift\Desktop\cicd-synapse\synapse\synapse-via\obj\Debug\predeploy.sql
+c:\Users\BlueShift\Desktop\cicd-synapse\synapse\synapse-via\obj\Debug\synapse-via.dll
+c:\Users\BlueShift\Desktop\cicd-synapse\synapse\synapse-via\obj\Debug\synapse-via.pdb
