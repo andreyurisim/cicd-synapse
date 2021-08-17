@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       AZURE_DATA_STUDIO_PROJECT_PATH: synapse/synapse-via/synapse-via.sqlproj
+      NET_CORE_TARGETS_PATH: /opt/sqlpackage
 
     steps:
       - uses: actions/checkout@v2
@@ -38,15 +39,6 @@ jobs:
             sudo apt-get install -y apt-transport-https && \
             sudo apt-get update && \
             sudo apt-get install -y dotnet-sdk-3.1
-
-      - name: Install Azure Data Studio
-        run: |
-          curl -Lo azuredatastudio-linux.deb https://go.microsoft.com/fwlink/?linkid=2168339
-          sudo dpkg -i azuredatastudio-linux.deb
-          sudo rm -rf azuredatastudio-linux.deb
-          sudo apt-get install libunwind8
-          
-          echo "NET_CORE_TARGETS_PATH=/usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/$(ls /usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/ | head -n1)" >> $GITHUB_ENV
 
       - name: Build dacpac
         run: dotnet build "${AZURE_DATA_STUDIO_PROJECT_PATH}" /p:NetCoreBuild=true /p:NETCoreTargetsPath="${NET_CORE_TARGETS_PATH}"
