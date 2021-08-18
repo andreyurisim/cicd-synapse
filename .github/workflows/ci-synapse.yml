@@ -14,7 +14,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      AZURE_DATA_STUDIO_PROJECT_PATH: synapse/synapse-via/synapse-via.sqlproj
+      PROJECT_NAME: synapse/synapse-via/synapse-via.sqlproj
+      PROJECT_PATH: synapse/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.sqlproj
+      DACPAC_PATH: synapse/${{ env.PROJECT_NAME }}/bin/Debug/${{ env.PROJECT_NAME }}.dacpac
 
     steps:
       - uses: actions/checkout@v2
@@ -50,3 +52,9 @@ jobs:
 
       - name: Build dacpac
         run: dotnet build "${AZURE_DATA_STUDIO_PROJECT_PATH}" /p:NetCoreBuild=true /p:NETCoreTargetsPath="${NET_CORE_TARGETS_PATH}"
+        
+      - name: Upload .dacpac
+        uses: actions/upload-artifact@v2
+        with:
+          name: dacpac
+          path: ${{ env.DACPAC_PATH }}
