@@ -14,9 +14,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      PROJECT_NAME: synapse/synapse-via/synapse-via.sqlproj
-      PROJECT_PATH: synapse/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.sqlproj
-      DACPAC_PATH: synapse/${{ env.PROJECT_NAME }}/bin/Debug/${{ env.PROJECT_NAME }}.dacpac
+      PROJECT_NAME: synapse-via
+      ENVIRONMENT_PREFIX: dev
+      PROFILE_PATH: ${{ github.workspace }}/synapse/profiles/${{ env.ENVIRONMENT_PREFIX }}.publish.xml
+      PROJECT_PATH: ${{ github.workspace }}/synapse/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.sqlproj
+      REPORT_PATH: ${{ github.workspace }}/synapse/${{ env.PROJECT_NAME }}
+      DACPAC_PATH: ${{ github.workspace }}/synapse/${{ env.PROJECT_NAME }}/bin/Debug/${{ env.PROJECT_NAME }}.dacpac
 
     steps:
       - uses: actions/checkout@v2
@@ -56,5 +59,78 @@ jobs:
       - name: Upload .dacpac
         uses: actions/upload-artifact@v2
         with:
-          name: dacpac
+          name: build
           path: ${{ env.DACPAC_PATH }}
+
+      - name: Scheme compare
+        run: |
+          mkdir -p "${REPORT_PATH}"
+          
+          # Export deploy report
+          sqlpackage \
+            /Action:DeployReport \
+            /Profile:"${PROFILE_PATH}" \
+            /OutputPath:"${REPORT_PATH}/deploy_report.xml" \
+            /OverwriteFiles:True \
+            /SourceFile:"${DACPAC_PATH}" \
+            /TargetDatabaseName:${{ secrets.SERVER_DATABASE }} \
+            /TargetPassword:"${{ secrets.SERVER_PASSWD }}" \
+            /TargetServerName:${{ secrets.SERVER_PASSWD }} \
+            /TargetUser:${{ secrets.SERVER_USER_ID }}
+
+          # Export sql script
+          sqlpackage \
+            /Action:Script \
+            /Profile:"${PROFILE_PATH}" \
+            /OutputPath:"${REPORT_PATH}/deploy.sql" \
+            /OverwriteFiles:True \
+            /SourceFile:"${DACPAC_PATH}" \
+            /TargetDatabaseName:${{ secrets.SERVER_DATABASE }} \
+            /TargetPassword:"${{ secrets.SERVER_PASSWD }}" \
+            /TargetServerName:${{ secrets.SERVER_PASSWD }} \
+            /TargetUser:${{ secrets.SERVER_USER_ID }}
+
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          name: report
+          path: ${{ env.REPORT_PATH }}
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      ARTIFACT_NAME: build
+      ENVIRONMENT_PREFIX: dev
+      PROFILE_PATH: ${{ github.workspace }}/synapse/profiles/${{ env.ENVIRONMENT_PREFIX }}.publish.xml
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install sqlpackage
+        run: |
+          curl -Lo sqlpackage-linux.zip https://aka.ms/sqlpackage-linux
+          unzip -o sqlpackage-linux.zip -d /opt/sqlpackage/
+          chmod +x /opt/sqlpackage/*
+          sudo rm -f /bin/sqlpackage
+          sudo ln -s /opt/sqlpackage/sqlpackage /bin/sqlpackage
+          sudo rm -rf sqlpackage-linux.zip
+
+      - name: Download .dacpac
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ env.ARTIFACT_NAME }}
+
+      - name: Publish .dacpac
+        run: |
+          DACPAC_PATH=$(find ${{ env.ARTIFACT_NAME }} -name '*.dacpac')
+          
+          sqlpackage \
+            /Action:Publish \
+            /Profile:"${PROFILE_PATH}" \
+            /SourceFile:"${DACPAC_PATH}" \
+            /TargetDatabaseName:${{ secrets.SERVER_DATABASE }} \
+            /TargetPassword:"${{ secrets.SERVER_PASSWD }}" \
+            /TargetServerName:${{ secrets.SERVER_PASSWD }} \
+            /TargetUser:${{ secrets.SERVER_USER_ID }}
