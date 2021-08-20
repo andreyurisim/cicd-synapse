@@ -14,7 +14,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      AZURE_DATA_STUDIO_PROJECT_PATH: synapse/synapse-via/synapse-via.sqlproj
+      PROJECT_NAME: synapse/synapse-via/synapse-via.sqlproj
+      PROJECT_PATH: synapse/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.sqlproj
+      DACPAC_PATH: synapse/${{ env.PROJECT_NAME }}/bin/Debug/${{ env.PROJECT_NAME }}.dacpac
 
     steps:
       - uses: actions/checkout@v2
@@ -34,19 +36,25 @@ jobs:
           sudo dpkg -i packages-microsoft-prod.deb && \
           rm packages-microsoft-prod.deb
 
-          sudo apt-get update && \
-            sudo apt-get install -y apt-transport-https && \
-            sudo apt-get update && \
-            sudo apt-get install -y dotnet-sdk-3.1
+          sudo apt update && \
+            sudo apt install -y apt-transport-https && \
+            sudo apt update && \
+            sudo apt install -y dotnet-sdk-3.1
 
       - name: Install Azure Data Studio
         run: |
           curl -Lo azuredatastudio-linux.deb https://go.microsoft.com/fwlink/?linkid=2168339
           sudo dpkg -i azuredatastudio-linux.deb
           sudo rm -rf azuredatastudio-linux.deb
-          sudo apt-get install libunwind8
+          sudo apt install -y libunwind8
           
           echo "NET_CORE_TARGETS_PATH=/usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/$(ls /usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/ | head -n1)" >> $GITHUB_ENV
 
       - name: Build dacpac
         run: dotnet build "${AZURE_DATA_STUDIO_PROJECT_PATH}" /p:NetCoreBuild=true /p:NETCoreTargetsPath="${NET_CORE_TARGETS_PATH}"
+        
+      - name: Upload .dacpac
+        uses: actions/upload-artifact@v2
+        with:
+          name: dacpac
+          path: ${{ env.DACPAC_PATH }}
