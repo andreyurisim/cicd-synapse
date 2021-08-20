@@ -16,13 +16,16 @@ jobs:
     env:
       PROJECT_NAME: teetsest_proj
       ENVIRONMENT_PREFIX: dev
-      PROFILE_PATH: ${{ github.workspace }}/synapse/profiles/${{ env.ENVIRONMENT_PREFIX }}.publish.xml
-      PROJECT_PATH: ${{ github.workspace }}/synapse/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.sqlproj
-      REPORT_PATH: ${{ github.workspace }}/synapse/${{ env.PROJECT_NAME }}
-      DACPAC_PATH: ${{ github.workspace }}/synapse/${{ env.PROJECT_NAME }}/bin/Debug/${{ env.PROJECT_NAME }}.dacpac
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Declare variables
+        run: |
+          echo "PROFILE_PATH=\"${{ github.workspace }}/synapse/profiles/${{ env.ENVIRONMENT_PREFIX }}.publish.xml\"" >> $GITHUB_ENV
+          echo "PROJECT_PATH=\"${{ github.workspace }}/synapse/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.sqlproj\"" >> $GITHUB_ENV
+          echo "REPORT_PATH=\"${{ github.workspace }}/synapse/${{ env.PROJECT_NAME }}\"" >> $GITHUB_ENV
+          echo "DACPAC_PATH=\"${{ github.workspace }}/synapse/${{ env.PROJECT_NAME }}/bin/Debug/${{ env.PROJECT_NAME }}.dacpac\"" >> $GITHUB_ENV
 
       - name: Install sqlpackage
         run: |
@@ -102,10 +105,13 @@ jobs:
     env:
       ARTIFACT_NAME: build
       ENVIRONMENT_PREFIX: dev
-      PROFILE_PATH: ${{ github.workspace }}/synapse/profiles/${{ env.ENVIRONMENT_PREFIX }}.publish.xml
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Declare variables
+        run: |
+          echo "PROFILE_PATH=${{ github.workspace }}/synapse/profiles/${{ env.ENVIRONMENT_PREFIX }}.publish.xml" >> $GITHUB_ENV
 
       - name: Install sqlpackage
         run: |
