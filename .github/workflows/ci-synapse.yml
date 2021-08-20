@@ -14,7 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      PROJECT_NAME: synapse-via
+      PROJECT_NAME: teetsest_proj
       ENVIRONMENT_PREFIX: dev
       PROFILE_PATH: ${{ github.workspace }}/synapse/profiles/${{ env.ENVIRONMENT_PREFIX }}.publish.xml
       PROJECT_PATH: ${{ github.workspace }}/synapse/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.sqlproj
