@@ -57,7 +57,7 @@ jobs:
           echo "NET_CORE_TARGETS_PATH=/usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/$(ls /usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/ | head -n1)" >> $GITHUB_ENV
 
       - name: Build dacpac
-        run: dotnet build "${AZURE_DATA_STUDIO_PROJECT_PATH}" /p:NetCoreBuild=true /p:NETCoreTargetsPath="${NET_CORE_TARGETS_PATH}"
+        run: dotnet build "${PROJECT_PATH}" /p:NetCoreBuild=true /p:NETCoreTargetsPath="${NET_CORE_TARGETS_PATH}"
         
       - name: Upload .dacpac
         uses: actions/upload-artifact@v2
