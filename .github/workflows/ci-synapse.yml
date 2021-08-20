@@ -101,6 +101,7 @@ jobs:
 
 
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     env:
       ARTIFACT_NAME: build
