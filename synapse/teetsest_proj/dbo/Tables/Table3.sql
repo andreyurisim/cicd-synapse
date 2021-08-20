@@ -1,0 +1,12 @@
+CREATE TABLE [dbo].[Table3] (
+    [col1] INT NOT NULL
+)
+WITH (CLUSTERED COLUMNSTORE INDEX, DISTRIBUTION = HASH([col1]));
+
+
+GO
+
+
+
+GO
+

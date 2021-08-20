@@ -3,16 +3,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>synapse-via</Name>
+    <Name>teetsest_proj</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{154B3C9D-4A4D-4763-B4C0-31853BFEB86A}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql150DatabaseSchemaProvider</DSP>
+    <ProjectGuid>{1CB0D7A1-B3FC-46CB-BB93-516036F8F59C}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlDwDatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
-    <RootNamespace>synapse-via</RootNamespace>
-    <AssemblyName>synapse-via</AssemblyName>
+    <RootNamespace>teetsest_proj</RootNamespace>
+    <AssemblyName>teetsest_proj</AssemblyName>
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Security\" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
   </ItemGroup>
@@ -67,8 +68,10 @@
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
   </Target>
   <ItemGroup>
+    <Build Include="Security\syn-ms-vvar.sql" />
     <Build Include="dbo\Tables\Table1.sql" />
-    <Build Include="dbo\Tables\pessoas.sql" />
+    <Build Include="dbo\Tables\Table.sql" />
+    <Build Include="dbo\Tables\Table2.sql" />
     <Build Include="dbo\Tables\Table3.sql" />
   </ItemGroup>
 </Project>
