@@ -107,6 +107,11 @@ jobs:
             /TargetServerName:${{ secrets.SERVER_NAME }} \
             /TargetDatabaseName:${{ secrets.SERVER_DATABASE }} \
             /AccessToken:${SQL_TOKEN}
+      
+      - name: Generate markdown report
+        shell: pwsh
+        run: |
+          ${{ github.workspace }}/synapse/scripts/Parse-SqlProfileReport.ps1 -Environment "${{ env.ENVIRONMENT_PREFIX }}" -SqlPackageReport "${REPORT_PATH}/deploy_report.xml" -OutputFilePath "${REPORT_PATH}/deploy_report.md"
 
       - name: Upload report
         uses: actions/upload-artifact@v2
