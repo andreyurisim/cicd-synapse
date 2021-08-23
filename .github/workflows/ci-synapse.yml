@@ -141,5 +141,5 @@ jobs:
             /SourceFile:"${DACPAC_PATH}" \
             /TargetDatabaseName:${{ secrets.SERVER_DATABASE }} \
             /TargetPassword:"${{ secrets.SERVER_PASSWD }}" \
-            /TargetServerName:${{ secrets.SERVER_PASSWD }} \
+            /TargetServerName:${{ secrets.SERVER_NAME }} \
             /TargetUser:${{ secrets.SERVER_USER_ID }}
