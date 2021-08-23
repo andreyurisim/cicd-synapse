@@ -23,10 +23,10 @@ jobs:
 
       - name: Declare variables
         run: |
-          echo "PROFILE_PATH=${{ github.workspace }}/synapse/profiles/${{ env.ENVIRONMENT_PREFIX }}.publish.xml" >> $GITHUB_ENV
-          echo "PROJECT_PATH=${{ github.workspace }}/synapse/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.sqlproj" >> $GITHUB_ENV
-          echo "REPORT_PATH=${{ github.workspace }}/synapse/${{ env.PROJECT_NAME }}" >> $GITHUB_ENV
-          echo "DACPAC_PATH=${{ github.workspace }}/synapse/${{ env.PROJECT_NAME }}/bin/Debug/${{ env.PROJECT_NAME }}.dacpac" >> $GITHUB_ENV
+          echo "PROFILE_PATH=synapse/profiles/${{ env.ENVIRONMENT_PREFIX }}.publish.xml" >> $GITHUB_ENV
+          echo "PROJECT_PATH=synapse/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.sqlproj" >> $GITHUB_ENV
+          echo "REPORT_PATH=synapse/${{ env.PROJECT_NAME }}/report" >> $GITHUB_ENV
+          echo "DACPAC_PATH=synapse/${{ env.PROJECT_NAME }}/bin/Debug/${{ env.PROJECT_NAME }}.dacpac" >> $GITHUB_ENV
 
       - name: Install sqlpackage
         run: |
