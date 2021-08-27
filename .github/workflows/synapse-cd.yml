@@ -1,0 +1,194 @@
+name: synapse-cicd
+
+on:
+  pull_request:
+    branches:
+      - main
+#     paths:
+#       - 'synapse/**'
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: dev
+    env:
+      PROJECT_NAME: teetsest_proj
+      ENVIRONMENT_PREFIX: dev
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Declare variables
+        run: |
+          echo "Slug variables"
+          echo " - ${{ env.GITHUB_REF_SLUG }}"    
+          echo " - ${{ env.GITHUB_HEAD_REF_SLUG }}"
+          echo " - ${{ env.GITHUB_BASE_REF_SLUG }}"
+          echo " - ${{ env.GITHUB_REPOSITORY_SLUG }}"
+          # output e.g. : master feat-new-feature v1.0.0 product-1.0.0-rc.2 new-awesome-product
+          echo "Slug URL variables"
+          echo " - ${{ env.GITHUB_REF_SLUG_URL }}"
+          echo " - ${{ env.GITHUB_HEAD_REF_SLUG_URL }}"
+          echo " - ${{ env.GITHUB_BASE_REF_SLUG_URL }}"
+          echo " - ${{ env.GITHUB_REPOSITORY_SLUG_URL }}"
+          # output e.g. : master feat-new-feature v1-0-0 product-1-0-0-rc-2 new-awesome-product
+          echo "Short SHA variables"
+          echo " - ${{ env.GITHUB_SHA_SHORT }}"
+          # output e.g. : ffac537e
+          
+          echo "PROFILE_PATH=synapse/profiles/${{ env.ENVIRONMENT_PREFIX }}.publish.xml" >> $GITHUB_ENV
+          echo "PROJECT_PATH=synapse/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.sqlproj" >> $GITHUB_ENV
+          echo "REPORT_PATH=synapse/${{ env.PROJECT_NAME }}/report" >> $GITHUB_ENV
+          echo "DACPAC_PATH=synapse/${{ env.PROJECT_NAME }}/bin/Debug/${{ env.PROJECT_NAME }}.dacpac" >> $GITHUB_ENV
+
+#       - name: Install sqlpackage
+#         run: |
+#           curl -Lo sqlpackage-linux.zip https://aka.ms/sqlpackage-linux
+#           unzip -o sqlpackage-linux.zip -d /opt/sqlpackage/
+#           chmod +x /opt/sqlpackage/*
+#           sudo rm -f /bin/sqlpackage
+#           sudo ln -s /opt/sqlpackage/sqlpackage /bin/sqlpackage
+#           sudo rm -rf sqlpackage-linux.zip
+
+#       - name: Install dotnet
+#         run: |
+#           wget https://packages.microsoft.com/config/ubuntu/21.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+#           sudo dpkg -i packages-microsoft-prod.deb && \
+#           rm packages-microsoft-prod.deb
+
+#           sudo apt update && \
+#             sudo apt install -y apt-transport-https && \
+#             sudo apt update && \
+#             sudo apt install -y dotnet-sdk-3.1
+
+#       - name: Install Azure Data Studio
+#         run: |
+#           curl -Lo azuredatastudio-linux.deb https://go.microsoft.com/fwlink/?linkid=2168339
+#           sudo dpkg -i azuredatastudio-linux.deb
+#           sudo rm -rf azuredatastudio-linux.deb
+#           sudo apt install -y libunwind8
+          
+#           echo "NET_CORE_TARGETS_PATH=/usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/$(ls /usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/ | head -n1)" >> $GITHUB_ENV
+
+#       - name: Build dacpac
+#         run: dotnet build "${PROJECT_PATH}" /p:NetCoreBuild=true /p:NETCoreTargetsPath="${NET_CORE_TARGETS_PATH}"
+        
+#       - name: Upload .dacpac
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: build
+#           path: ${{ env.DACPAC_PATH }}
+      
+#       - name: Azure Login
+#         uses: Azure/login@v1
+#         with:
+#           creds: ${{ secrets.AZURE_CREDENTIALS }}
+#           enable-AzPSSession: true
+
+#       - name: Adquiring access token
+#         shell: pwsh
+#         run: |
+#           Set-PSRepository PSGallery -InstallationPolicy Trusted
+#           Install-Module -Name Az.Accounts -AllowClobber -Force
+#           $context = Get-AzContext
+#           $sqlToken = (Get-AzAccessToken -ResourceUrl "https://database.windows.net" -DefaultProfile $context).Token
+          
+#           echo "SQL_TOKEN=$sqlToken" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+#       - name: Scheme compare
+#         run: |
+#           mkdir -p "${REPORT_PATH}"
+          
+#           # Export deploy report
+#           sqlpackage \
+#             /Action:DeployReport \
+#             /Profile:"${PROFILE_PATH}" \
+#             /OutputPath:"${REPORT_PATH}/deploy_report.xml" \
+#             /OverwriteFiles:True \
+#             /SourceFile:"${DACPAC_PATH}" \
+#             /TargetServerName:${{ secrets.SERVER_NAME }} \
+#             /TargetDatabaseName:${{ secrets.SERVER_DATABASE }} \
+#             /AccessToken:${SQL_TOKEN}
+
+#           # Export sql script
+#           sqlpackage \
+#             /Action:Script \
+#             /Profile:"${PROFILE_PATH}" \
+#             /OutputPath:"${REPORT_PATH}/deploy.sql" \
+#             /OverwriteFiles:True \
+#             /SourceFile:"${DACPAC_PATH}" \
+#             /TargetServerName:${{ secrets.SERVER_NAME }} \
+#             /TargetDatabaseName:${{ secrets.SERVER_DATABASE }} \
+#             /AccessToken:${SQL_TOKEN}
+      
+#       - name: Generate markdown report
+#         shell: pwsh
+#         run: |
+#           ${{ github.workspace }}/synapse/scripts/Parse-SqlProfileReport.ps1 -Environment "${{ env.ENVIRONMENT_PREFIX }}" -SqlPackageReport "${REPORT_PATH}/deploy_report.xml" -OutputFilePath "${REPORT_PATH}/deploy_report.md"
+
+#       - name: Upload report
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: report
+#           path: ${{ env.REPORT_PATH }}
+
+
+#   deploy:
+#     needs: build
+#     runs-on: ubuntu-latest
+#     environment: dev
+#     env:
+#       ARTIFACT_NAME: build
+#       ENVIRONMENT_PREFIX: dev
+
+#     steps:
+#       - uses: actions/checkout@v2
+
+#       - name: Declare variables
+#         run: |
+#           echo "PROFILE_PATH=${{ github.workspace }}/synapse/profiles/${{ env.ENVIRONMENT_PREFIX }}.publish.xml" >> $GITHUB_ENV
+
+#       - name: Install sqlpackage
+#         run: |
+#           curl -Lo sqlpackage-linux.zip https://aka.ms/sqlpackage-linux
+#           unzip -o sqlpackage-linux.zip -d /opt/sqlpackage/
+#           chmod +x /opt/sqlpackage/*
+#           sudo rm -f /bin/sqlpackage
+#           sudo ln -s /opt/sqlpackage/sqlpackage /bin/sqlpackage
+#           sudo rm -rf sqlpackage-linux.zip
+
+#       - name: Download .dacpac
+#         uses: actions/download-artifact@v2
+#         with:
+#           name: ${{ env.ARTIFACT_NAME }}
+#           path: ${{ env.ARTIFACT_NAME }}
+      
+#       - name: Azure Login
+#         uses: Azure/login@v1
+#         with:
+#           creds: ${{ secrets.AZURE_CREDENTIALS }}
+#           enable-AzPSSession: true
+
+#       - name: Adquiring access token
+#         shell: pwsh
+#         run: |
+#           Set-PSRepository PSGallery -InstallationPolicy Trusted
+#           Install-Module -Name Az.Accounts -AllowClobber -Force
+#           $context = Get-AzContext
+#           $sqlToken = (Get-AzAccessToken -ResourceUrl "https://database.windows.net" -DefaultProfile $context).Token
+          
+#           echo "SQL_TOKEN=$sqlToken" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+#       - name: Publish .dacpac
+#         run: |
+#           DACPAC_PATH=$(find ${{ env.ARTIFACT_NAME }} -name '*.dacpac')
+          
+#           sqlpackage \
+#             /Action:Publish \
+#             /Profile:"${PROFILE_PATH}" \
+#             /SourceFile:"${DACPAC_PATH}" \
+#             /TargetServerName:${{ secrets.SERVER_NAME }} \
+#             /TargetDatabaseName:${{ secrets.SERVER_DATABASE }} \
+#             /AccessToken:${SQL_TOKEN}
