@@ -23,19 +23,19 @@ jobs:
       - name: Declare variables
         run: |
           echo "Slug variables"
-          echo " - ${{ env.GITHUB_REF_SLUG }}"    
-          echo " - ${{ env.GITHUB_HEAD_REF_SLUG }}"
-          echo " - ${{ env.GITHUB_BASE_REF_SLUG }}"
-          echo " - ${{ env.GITHUB_REPOSITORY_SLUG }}"
+          echo " - ${{ env.GITHUB_REF }}"    
+          echo " - ${{ env.GITHUB_HEAD_REF }}"
+          echo " - ${{ env.GITHUB_BASE_REF }}"
+          echo " - ${{ env.GITHUB_REPOSITORY }}"
           # output e.g. : master feat-new-feature v1.0.0 product-1.0.0-rc.2 new-awesome-product
           echo "Slug URL variables"
-          echo " - ${{ env.GITHUB_REF_SLUG_URL }}"
-          echo " - ${{ env.GITHUB_HEAD_REF_SLUG_URL }}"
-          echo " - ${{ env.GITHUB_BASE_REF_SLUG_URL }}"
-          echo " - ${{ env.GITHUB_REPOSITORY_SLUG_URL }}"
+          echo " - ${{ env.GITHUB_REF_URL }}"
+          echo " - ${{ env.GITHUB_HEAD_REF_URL }}"
+          echo " - ${{ env.GITHUB_BASE_REF_URL }}"
+          echo " - ${{ env.GITHUB_REPOSITORY_URL }}"
           # output e.g. : master feat-new-feature v1-0-0 product-1-0-0-rc-2 new-awesome-product
           echo "Short SHA variables"
-          echo " - ${{ env.GITHUB_SHA_SHORT }}"
+          echo " - ${{ env.GITHUB_SHA }}"
           # output e.g. : ffac537e
           
           echo "PROFILE_PATH=synapse/profiles/${{ env.ENVIRONMENT_PREFIX }}.publish.xml" >> $GITHUB_ENV
