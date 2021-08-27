@@ -1,7 +1,7 @@
 name: synapse-cicd
 
 on:
-  push:
+  pull_request:
     branches:
       - main
       - dev
