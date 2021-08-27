@@ -1,4 +1,4 @@
-name: synapse-cicd
+name: synapse-cd
 
 on:
   push:
@@ -23,20 +23,20 @@ jobs:
       - name: Declare variables
         run: |
           echo "Slug variables"
-          echo " - ${{ env.GITHUB_REF_SLUG }}"    
-          echo " - ${{ env.GITHUB_HEAD_REF_SLUG }}"
-          echo " - ${{ env.GITHUB_BASE_REF_SLUG }}"
-          echo " - ${{ env.GITHUB_REPOSITORY_SLUG }}"
-          # output e.g. : master feat-new-feature v1.0.0 product-1.0.0-rc.2 new-awesome-product
+          echo " - ${GITHUB_REF}"    
+          echo " - ${GITHUB_HEAD_REF}"
+          echo " - ${GITHUB_BASE_REF}"
+          echo " - ${GITHUB_REPOSITORY}"
+          
           echo "Slug URL variables"
-          echo " - ${{ env.GITHUB_REF_SLUG_URL }}"
-          echo " - ${{ env.GITHUB_HEAD_REF_SLUG_URL }}"
-          echo " - ${{ env.GITHUB_BASE_REF_SLUG_URL }}"
-          echo " - ${{ env.GITHUB_REPOSITORY_SLUG_URL }}"
-          # output e.g. : master feat-new-feature v1-0-0 product-1-0-0-rc-2 new-awesome-product
+          echo " - ${GITHUB_REF_URL}"
+          echo " - ${GITHUB_HEAD_REF_URL}"
+          echo " - ${GITHUB_BASE_REF_URL}"
+          echo " - ${GITHUB_REPOSITORY_URL}"
+          
           echo "Short SHA variables"
-          echo " - ${{ env.GITHUB_SHA_SHORT }}"
-          # output e.g. : ffac537e
+          echo " - ${GITHUB_SHA}"
+          echo " - ${GITHUB_SHA_SHORT}"
           
           echo "PROFILE_PATH=synapse/profiles/${{ env.ENVIRONMENT_PREFIX }}.publish.xml" >> $GITHUB_ENV
           echo "PROJECT_PATH=synapse/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.sqlproj" >> $GITHUB_ENV
