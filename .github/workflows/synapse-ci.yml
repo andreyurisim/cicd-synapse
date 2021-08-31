@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     env:
-      PROJECT_NAME: teetsest_proj
+      PROJECT_NAME: cicd-synapse
       ENVIRONMENT_PREFIX: dev
 
     steps:
