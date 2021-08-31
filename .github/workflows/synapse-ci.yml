@@ -23,9 +23,9 @@ jobs:
       - name: Declare variables
         run: |
           echo "PROFILE_PATH=synapse/profiles/${{ env.ENVIRONMENT_PREFIX }}.publish.xml" >> $GITHUB_ENV
-          echo "PROJECT_PATH=synapse/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.sqlproj" >> $GITHUB_ENV
-          echo "REPORT_PATH=synapse/${{ env.PROJECT_NAME }}/report" >> $GITHUB_ENV
-          echo "DACPAC_PATH=synapse/${{ env.PROJECT_NAME }}/bin/Debug/${{ env.PROJECT_NAME }}.dacpac" >> $GITHUB_ENV
+          echo "PROJECT_PATH=synapse/src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.sqlproj" >> $GITHUB_ENV
+          echo "REPORT_PATH=synapse/src/${{ env.PROJECT_NAME }}/report" >> $GITHUB_ENV
+          echo "DACPAC_PATH=synapse/src/${{ env.PROJECT_NAME }}/bin/Debug/${{ env.PROJECT_NAME }}.dacpac" >> $GITHUB_ENV
 
       - name: Install sqlpackage
         run: |
@@ -126,7 +126,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     env:
-      PROJECT_NAME: teetsest_proj
+      PROJECT_NAME: cicd-synapse
       ENVIRONMENT_PREFIX: dev
 
     steps:
@@ -135,9 +135,9 @@ jobs:
       - name: Declare variables
         run: |
           echo "PROFILE_PATH=synapse/profiles/${{ env.ENVIRONMENT_PREFIX }}.publish.xml" >> $GITHUB_ENV
-          echo "PROJECT_PATH=synapse/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.sqlproj" >> $GITHUB_ENV
-          echo "REPORT_PATH=synapse/${{ env.PROJECT_NAME }}/report" >> $GITHUB_ENV
-          echo "DACPAC_PATH=synapse/${{ env.PROJECT_NAME }}/bin/Debug/${{ env.PROJECT_NAME }}.dacpac" >> $GITHUB_ENV
+          echo "PROJECT_PATH=synapse/src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.sqlproj" >> $GITHUB_ENV
+          echo "REPORT_PATH=synapse/src/${{ env.PROJECT_NAME }}/report" >> $GITHUB_ENV
+          echo "DACPAC_PATH=synapse/src/${{ env.PROJECT_NAME }}/bin/Debug/${{ env.PROJECT_NAME }}.dacpac" >> $GITHUB_ENV
 
       - name: Install sqlpackage
         run: |
