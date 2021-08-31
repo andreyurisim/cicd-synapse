@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     env:
-      PROJECT_NAME: cicd-synapse
+      PROJECT_NAME: demo_cicd
       ENVIRONMENT_PREFIX: dev
 
     steps:
@@ -126,7 +126,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     env:
-      PROJECT_NAME: cicd-synapse
+      PROJECT_NAME: demo_cicd
       ENVIRONMENT_PREFIX: dev
 
     steps:
