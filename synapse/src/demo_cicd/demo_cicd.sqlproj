@@ -71,5 +71,6 @@
     <Build Include="Security\logistica.sql" />
     <Build Include="Security\credito.sql" />
     <Build Include="credito\Tables\Table1.sql" />
+    <Build Include="credito\Tables\Table2.sql" />
   </ItemGroup>
 </Project>
