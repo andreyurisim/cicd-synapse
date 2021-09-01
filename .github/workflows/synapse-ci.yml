@@ -112,9 +112,9 @@ jobs:
       - name: Generate markdown report
         shell: pwsh
         run: |
-          ${{ github.workspace }}/synapse/scripts/Parse-SqlProfileReport.ps1 ^
-            -Environment "${{ env.ENVIRONMENT_PREFIX }}" ^
-            -SqlPackageReport "${{ env.REPORT_PATH }}/deploy_report.xml" ^
+          ${{ github.workspace }}/synapse/scripts/Parse-SqlProfileReport.ps1 `
+            -Environment "${{ env.ENVIRONMENT_PREFIX }}" `
+            -SqlPackageReport "${{ env.REPORT_PATH }}/deploy_report.xml" `
             -OutputFilePath "${{ env.REPORT_PATH }}/deploy_report.md"
 
       - name: Upload report

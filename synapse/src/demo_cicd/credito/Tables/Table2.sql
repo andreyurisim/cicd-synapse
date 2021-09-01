@@ -6,4 +6,3 @@ CREATE TABLE [credito].[Table2] (
 
 
 GO
-
