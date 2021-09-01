@@ -57,7 +57,7 @@ jobs:
           echo "NET_CORE_TARGETS_PATH=/usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/$(ls /usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/ | head -n1)" >> $GITHUB_ENV
 
       - name: Build dacpac
-        run: dotnet build "${PROJECT_PATH}" /p:NetCoreBuild=true /p:NETCoreTargetsPath="${NET_CORE_TARGETS_PATH}"
+        run: dotnet build "${PROJECT_PATH}" /p:NetCoreBuild=true /p:NETCoreTargetsPath="${{ env.NET_CORE_TARGETS_PATH}}"
         
       - name: Upload .dacpac
         uses: actions/upload-artifact@v2
@@ -88,10 +88,10 @@ jobs:
           # Export deploy report
           sqlpackage \
             /Action:DeployReport \
-            /Profile:"${PROFILE_PATH}" \
-            /OutputPath:"${REPORT_PATH}/deploy_report.xml" \
+            /Profile:"${{ env.PROFILE_PATH }}" \
+            /OutputPath:"${{ env.REPORT_PATH }}/deploy_report.xml" \
             /OverwriteFiles:True \
-            /SourceFile:"${DACPAC_PATH}" \
+            /SourceFile:"${{ env.DACPAC_PATH }}" \
             /TargetServerName:${{ secrets.SERVER_NAME }} \
             /TargetDatabaseName:${{ secrets.SERVER_DATABASE }} \
             /TargetUser:${{ secrets.SERVER_USER_ID }} \
@@ -100,10 +100,10 @@ jobs:
           # Export sql script
           sqlpackage \
             /Action:Script \
-            /Profile:"${PROFILE_PATH}" \
-            /OutputPath:"${REPORT_PATH}/deploy.sql" \
+            /Profile:"${{ env.PROFILE_PATH }}" \
+            /OutputPath:"${{ env.REPORT_PATH }}/deploy.sql" \
             /OverwriteFiles:True \
-            /SourceFile:"${DACPAC_PATH}" \
+            /SourceFile:"${{ env.DACPAC_PATH }}" \
             /TargetServerName:${{ secrets.SERVER_NAME }} \
             /TargetDatabaseName:${{ secrets.SERVER_DATABASE }} \
             /TargetUser:${{ secrets.SERVER_USER_ID }} \
@@ -172,7 +172,7 @@ jobs:
           echo "NET_CORE_TARGETS_PATH=/usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/$(ls /usr/share/azuredatastudio/resources/app/extensions/mssql/sqltoolsservice/Linux/ | head -n1)" >> $GITHUB_ENV
 
       - name: Build dacpac
-        run: dotnet build "${PROJECT_PATH}" /p:NetCoreBuild=true /p:NETCoreTargetsPath="${NET_CORE_TARGETS_PATH}"
+        run: dotnet build "${PROJECT_PATH}" /p:NetCoreBuild=true /p:NETCoreTargetsPath="${{ env.NET_CORE_TARGETS_PATH}}"
       
       # - name: Azure Login
       #   uses: Azure/login@v1
@@ -194,8 +194,8 @@ jobs:
       #   run: |
       #     sqlpackage \
       #       /Action:Publish \
-      #       /Profile:"${PROFILE_PATH}" \
-      #       /SourceFile:"${DACPAC_PATH}" \
+      #       /Profile:"${{ env.PROFILE_PATH }}" \
+      #       /SourceFile:"${{ env.DACPAC_PATH }}" \
       #       /TargetServerName:${{ secrets.SERVER_NAME }} \
       #       /TargetUser:${{ secrets.SERVER_USER_ID }} \
       #       /TargetPassword:${{ secrets.SERVER_PASSWORD }}
