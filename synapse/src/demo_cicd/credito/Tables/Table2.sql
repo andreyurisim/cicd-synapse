@@ -1,7 +1,7 @@
 CREATE TABLE [credito].[Table2] (
-    [Id]          INT           NOT NULL,
-    [ColumnName1] NVARCHAR (50) NOT NULL,
-    [ColumnName2] NVARCHAR (50) NOT NULL
+    [Id]          INT           NULL,
+    [ColumnName1] NVARCHAR (50) NULL,
+    [ColumnName2] NVARCHAR (50) NULL
 );
 
 
