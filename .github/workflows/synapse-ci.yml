@@ -112,7 +112,10 @@ jobs:
       - name: Generate markdown report
         shell: pwsh
         run: |
-          ${{ github.workspace }}/synapse/scripts/Parse-SqlProfileReport.ps1 -Environment "${{ env.ENVIRONMENT_PREFIX }}" -SqlPackageReport "${REPORT_PATH}/deploy_report.xml" -OutputFilePath "${REPORT_PATH}/deploy_report.md"
+          ${{ github.workspace }}/synapse/scripts/Parse-SqlProfileReport.ps1 \
+            -Environment "${{ env.ENVIRONMENT_PREFIX }}" \
+            -SqlPackageReport "${{ env.REPORT_PATH }}/deploy_report.xml" \
+            -OutputFilePath "${{ env.REPORT_PATH }}/deploy_report.md"
 
       - name: Upload report
         uses: actions/upload-artifact@v2
