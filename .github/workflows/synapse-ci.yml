@@ -193,9 +193,9 @@ jobs:
       - name: Publish .dacpac
         run: |
           sqlpackage \
-            /Action:Publish \
-            /Profile:"${PROFILE_PATH}" \
-            /SourceFile:"${DACPAC_PATH}" \
-            /TargetServerName:${{ secrets.SERVER_NAME }} \
-            /TargetUser:${{ secrets.SERVER_USER_ID }} \
+            /Action:Publish ^
+            /Profile:"${PROFILE_PATH}" ^
+            /SourceFile:"${DACPAC_PATH}" ^
+            /TargetServerName:${{ secrets.SERVER_NAME }} ^
+            /TargetUser:${{ secrets.SERVER_USER_ID }} ^
             /TargetPassword:${{ secrets.SERVER_PASSWORD }}
