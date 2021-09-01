@@ -190,12 +190,12 @@ jobs:
           
       #     echo "SQL_TOKEN=$sqlToken" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
-      - name: Publish .dacpac
-        run: |
-          sqlpackage \
-            /Action:Publish ^
-            /Profile:"${PROFILE_PATH}" ^
-            /SourceFile:"${DACPAC_PATH}" ^
-            /TargetServerName:${{ secrets.SERVER_NAME }} ^
-            /TargetUser:${{ secrets.SERVER_USER_ID }} ^
-            /TargetPassword:${{ secrets.SERVER_PASSWORD }}
+      # - name: Publish .dacpac
+      #   run: |
+      #     sqlpackage \
+      #       /Action:Publish ^
+      #       /Profile:"${PROFILE_PATH}" ^
+      #       /SourceFile:"${DACPAC_PATH}" ^
+      #       /TargetServerName:${{ secrets.SERVER_NAME }} ^
+      #       /TargetUser:${{ secrets.SERVER_USER_ID }} ^
+      #       /TargetPassword:${{ secrets.SERVER_PASSWORD }}
