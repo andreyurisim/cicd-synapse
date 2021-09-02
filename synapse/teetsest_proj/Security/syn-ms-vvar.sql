@@ -1,5 +1,0 @@
-CREATE USER [syn-ms-vvar] FOR EXTERNAL PROVIDER;
-
-
-GO
-
